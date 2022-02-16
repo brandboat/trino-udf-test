@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <properties>
+        <trino.version>351</trino.version>
+        <slice.version>0.36</slice.version>
+        <guava.version>26.0-jre</guava.version>
+        <javax.inject.version>1</javax.inject.version>
+        <io.airlift.log.version>0.183</io.airlift.log.version>
+        <jodatime.version>2.8.1</jodatime.version>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+    </properties>
+
+    <build>
+       <plugins>
+           <plugin>
+               <groupId>org.apache.maven.plugins</groupId>
+               <artifactId>maven-shade-plugin</artifactId>
+               <version>2.3</version>
+               <executions>
+                   <execution>
+                       <phase>package</phase>
+                       <goals>
+                           <goal>shade</goal>
+                       </goals>
+                       <configuration>
+                           <artifactSet>
+                               <!-- dont need to add airlift.slice, trino provides it to all plugins -->
+                               <includes>
+                                   <include>com.google.guava:guava</include>
+                                   <include>io.airlift:log</include>
+                                   <include>joda-time:joda-time</include>
+                               </includes>
+                           </artifactSet>
+                           <relocations>
+                               <relocation>
+                                   <pattern>org.joda</pattern>
+                                   <shadedPattern>org.joda.shaded</shadedPattern>
+                               </relocation>
+                               <relocation>
+                                   <pattern>com.google</pattern>
+                                   <shadedPattern>com.google.shaded</shadedPattern>
+                               </relocation>
+                               <relocation>
+                                   <pattern>io.airlift.log</pattern>
+                                   <shadedPattern>io.airlift.log.shaded</shadedPattern>
+                               </relocation>
+                           </relocations>
+
+                       </configuration>
+                   </execution>
+               </executions>
+           </plugin>
+      </plugins>
+    </build>
+
+    <groupId>com.cannerflow.trino</groupId>
+    <artifactId>udfs</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>TrinoUDFs</name>
+
+    <dependencies>
+        <dependency>
+            <groupId>io.trino</groupId>
+            <artifactId>trino-spi</artifactId>
+            <version>${trino.version}</version>
+        </dependency>
+
+    </dependencies>
+</project>
