@@ -15,20 +15,23 @@
  */
 package com.brandboat.udfs.scalar;
 
+import io.airlift.slice.Slice;
 import io.trino.spi.function.Description;
 import io.trino.spi.function.ScalarFunction;
 import io.trino.spi.function.SqlType;
 import io.trino.spi.type.StandardTypes;
 
-public class TestFunctions
-{
-    private TestFunctions() {}
+import static io.airlift.slice.Slices.utf8Slice;
 
-    @Description("math op")
-    @ScalarFunction("math_op")
-    @SqlType(StandardTypes.BIGINT)
-    public static long mathOpAddBigInt(@SqlType(StandardTypes.BIGINT) long left, @SqlType(StandardTypes.BIGINT) long right)
+public class MaskFunction
+{
+    private MaskFunction() {}
+
+    @Description("mask value in column")
+    @ScalarFunction("mask_column")
+    @SqlType(StandardTypes.VARCHAR)
+    public static Slice maskColumnSlice(@SqlType(StandardTypes.VARCHAR) Slice value)
     {
-        return left + right;
+        return utf8Slice("*****");
     }
 }

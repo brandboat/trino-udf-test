@@ -13,24 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.brandboat;
+package com.brandboat.udfs.scalar;
 
-import com.brandboat.udfs.scalar.MaskFunction;
-import com.brandboat.udfs.scalar.MathFunction;
-import io.trino.spi.Plugin;
+import io.trino.spi.function.Description;
+import io.trino.spi.function.ScalarFunction;
+import io.trino.spi.function.SqlType;
+import io.trino.spi.type.StandardTypes;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
-
-public class UdfPlugin implements Plugin
+public class MathFunction
 {
-    @Override
-    public Set<Class<?>> getFunctions()
+    private MathFunction() {}
+
+    @Description("math op")
+    @ScalarFunction("math_op")
+    @SqlType(StandardTypes.BIGINT)
+    public static long mathOpAddBigInt(@SqlType(StandardTypes.BIGINT) long left, @SqlType(StandardTypes.BIGINT) long right)
     {
-        Set<Class<?>> functions = new HashSet<>();
-        functions.add(MathFunction.class);
-        functions.add(MaskFunction.class);
-        return Collections.unmodifiableSet(functions);
+        return left + right;
     }
 }

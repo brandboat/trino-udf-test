@@ -68,6 +68,5 @@
             <artifactId>trino-spi</artifactId>
             <version>${trino.version}</version>
         </dependency>
-
     </dependencies>
 </project>
